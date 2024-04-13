@@ -4,6 +4,7 @@ import { logger } from '../utils/logger';
 import { IUserProps, UserSchema } from '../schemas/user.schema';
 import { UserSchemaValidator } from '../validators/userSchema.dto';
 
+UserSchema.index({ _id: 1, email: 1, isActive: 1 });
 
 UserSchema.pre('validate', async function(next) {
     try {
@@ -28,6 +29,6 @@ UserSchema.pre('save', async function(next) {
     }
 });
 
-const UserModel = mongoose.model<IUserProps>('User', UserSchema);
+const UserModel = mongoose.model<IUserProps>('users', UserSchema);
 
 export { UserModel, IUserProps };
