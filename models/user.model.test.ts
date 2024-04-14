@@ -1,40 +1,63 @@
-import mongoose from 'mongoose';
-import { UserModel, IUserProps } from './user.model';
-import { logger } from '../utils/logger';
+import mongoose from "mongoose";
+import { UserModel, IUserProps } from "./user.model";
+import dotenv from "dotenv";
+dotenv.config();
 
-describe('User Model Test', () => {
-    beforeAll(async () => {
-        await mongoose.connect(''); //TODO
-    });
+describe("User Model", () => {
+  beforeAll(async () => {
+    if (!process.env.MONGO_URI) {
+      throw new Error("MONGO_URI is not defined");
+    }
+    await mongoose.connect(process.env.MONGO_URI);
+  });
 
-    afterAll(async () => {
-        await mongoose.connection.close();
-    });
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
 
-    it('should create and save a new user', async () => {
-        const userData: IUserProps = {
-            name: 'John Doe',
-            username: 'john_doe',
-            email: 'john@example.com',
-            password: 'password123'
-        };
+  const _id = new mongoose.Types.ObjectId();
 
-        try {
-            const user = new UserModel(userData);
-            const savedUser = await user.save();
+  it("Create User", async () => {
+    const userData: IUserProps = {
+      _id,
+      name: "John Doe",
+      username: "john_doe",
+      email: "john@example.com",
+      password: "password123",
+    };
 
-            expect(savedUser._id).toBeDefined();
-            expect(savedUser.name).toBe(userData.name);
-            expect(savedUser.username).toBe(userData.username);
-            expect(savedUser.email).toBe(userData.email);
-            expect(savedUser.password).toBeDefined();
-            expect(savedUser.isActive).toBe(true);
-            expect(savedUser.gender).toBe(userData.gender);
-            expect(savedUser.createdAt).toBeDefined();
-            expect(savedUser.updatedAt).toBeDefined();
-        } catch (error) {
-            logger.error(error);
-            throw error;
-        }
-    });
+    try {
+      const savedUser = await UserModel.create(userData);
+      expect(savedUser._id).toBeDefined();
+      expect(savedUser.name).toBe(userData.name);
+      expect(savedUser.username).toBe(userData.username);
+      expect(savedUser.email).toBe(userData.email);
+      expect(savedUser.password).toBeDefined();
+      expect(savedUser.isActive).toBe(true);
+      expect(savedUser.createdAt).toBeDefined();
+      expect(savedUser.updatedAt).toBeDefined();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  });
+
+  it("Update User", async () => {
+    const userData: IUserProps = {
+      _id,
+      name: "John Doe",
+      username: "john_doe",
+      email: "john@example.com",
+      password: "password123",
+    };
+
+    try {
+        const updatedUser = await UserModel.findByIdAndUpdate(_id, {
+            $set: {
+                name: "John doe (Updated)"
+            }
+        });
+    }
+
+  });
 });

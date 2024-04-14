@@ -1,14 +1,16 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 const UserSchemaValidator = Joi.object({
-    name: Joi.string().required(),
-    username: Joi.string().required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-    birthday: Joi.date(),
-    gender: Joi.string(),
-    createdAt: Joi.date(),
-    updatedAt: Joi.date()
+  _id: Joi.object().required(),
+  name: Joi.string().required(),
+  username: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+  birthday: Joi.date().optional(),
+  gender: Joi.string().optional(),
+  createdAt: Joi.date(),
+  updatedAt: Joi.date(),
+  isActive: Joi.boolean(),
 });
 
-export { UserSchemaValidator }
+export { UserSchemaValidator };
