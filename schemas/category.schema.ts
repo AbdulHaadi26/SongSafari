@@ -6,7 +6,7 @@ interface ICategoryProps {
   _id: object;
   name: string;
   description: string;
-  cover: IAttachmentProps[];
+  covers: IAttachmentProps[];
   createdBy: IUserProps;
   updatedBy?: IUserProps;
   createdAt?: Date;
@@ -17,7 +17,7 @@ interface ICategoryProps {
 const CategorySchema = new Schema<ICategoryProps>({
   name: { type: String, required: true },
   description: { type: String },
-  cover: [
+  covers: [
     {
       type: Schema.Types.ObjectId,
       ref: "attachments",

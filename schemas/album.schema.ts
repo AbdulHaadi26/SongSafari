@@ -8,7 +8,7 @@ interface IAlbumProps {
   _id: object;
   name: string;
   description: string;
-  cover: IAttachmentProps[];
+  covers: IAttachmentProps[];
   tags: ITagProps[];
   categories: ICategoryProps[];
   author: string;
@@ -23,7 +23,7 @@ interface IAlbumProps {
 const AlbumSchema = new Schema<IAlbumProps>({
   name: { type: String, required: true },
   description: { type: String },
-  cover: [
+  covers: [
     {
       type: Schema.Types.ObjectId,
       ref: "attachments",
