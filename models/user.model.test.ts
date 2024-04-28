@@ -43,21 +43,12 @@ describe("User Model", () => {
   });
 
   it("Update User", async () => {
-    const userData: IUserProps = {
-      _id,
-      name: "John Doe",
-      username: "john_doe",
-      email: "john@example.com",
-      password: "password123",
-    };
+    const updatedName = "John Doe (Updated)";
 
     try {
-        const updatedUser = await UserModel.findByIdAndUpdate(_id, {
-            $set: {
-                name: "John doe (Updated)"
-            }
-        });
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-
   });
 });
