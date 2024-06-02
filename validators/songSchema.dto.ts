@@ -1,10 +1,10 @@
 import Joi from "joi";
 
-const AlbumSchemaValidator = Joi.object({
+const SongSchemaValidator = Joi.object({
   _id: Joi.object().required(),
   name: Joi.string().required(),
   description: Joi.string(),
-  cover: Joi.array(),
+  cover: Joi.string(),
   tags: Joi.array(),
   categories: Joi.array(),
   createdAt: Joi.date(),
@@ -12,4 +12,4 @@ const AlbumSchemaValidator = Joi.object({
   isActive: Joi.boolean(),
 });
 
-export { AlbumSchemaValidator };
+export { SongSchemaValidator };

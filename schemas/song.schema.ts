@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 import { ITagProps } from "./tags.schema";
 import { ICategoryProps } from "./category.schema";
 
-interface IAlbumProps {
+interface ISongProps {
   _id: object;
   name: string;
   description: string;
@@ -16,7 +16,7 @@ interface IAlbumProps {
   isActive?: boolean;
 }
 
-const AlbumSchema = new Schema<IAlbumProps>({
+const SongSchema = new Schema<ISongProps>({
   name: { type: String, required: true },
   description: { type: String },
   cover: {
@@ -41,4 +41,4 @@ const AlbumSchema = new Schema<IAlbumProps>({
   isActive: { type: Boolean, default: true },
 });
 
-export { AlbumSchema, IAlbumProps };
+export { SongSchema, ISongProps };
