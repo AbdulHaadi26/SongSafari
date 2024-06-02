@@ -1,24 +1,26 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { ITagProps } from "../schemas/tags.schema";
-import { TagModel } from "../models/tags.model";
+import { ICategoryProps } from "../schemas/category.schema";
+import { CategoryModel } from "../models/category.model";
 import { AlbumModel } from "../models/album.model";
 import { SongModel } from "../models/song.model";
 
-const createTag = async (req: Request, res: Response) => {
+const createCategory = async (req: Request, res: Response) => {
   try {
-    const { API_KEY, name } = req.body;
+    const { API_KEY, name, cover, description } = req.body;
 
     if (API_KEY !== process.env.API_KEY) {
       return res.status(401).send("Unauthorized");
     }
 
-    const data: ITagProps = {
+    const data: ICategoryProps = {
       _id: new mongoose.Types.ObjectId(),
       name,
+      cover,
+      description,
     };
 
-    await TagModel.create(data);
+    await CategoryModel.create(data);
 
     res.status(200).send("Success");
   } catch (error) {
@@ -27,20 +29,22 @@ const createTag = async (req: Request, res: Response) => {
   }
 };
 
-const updateTag = async (req: Request, res: Response) => {
+const updateCategory = async (req: Request, res: Response) => {
   try {
-    const { API_KEY, name } = req.body;
+    const { API_KEY, name, cover, description } = req.body;
 
     if (API_KEY !== process.env.API_KEY) {
       return res.status(401).send("Unauthorized");
     }
 
-    const updatedData = await TagModel.updateOne(
+    await CategoryModel.updateOne(
       {
         _id: req.params.id,
       },
       {
         name,
+        cover,
+        description,
         updatedAt: new Date(),
       }
     );
@@ -52,9 +56,9 @@ const updateTag = async (req: Request, res: Response) => {
   }
 };
 
-const getAllTags = async (req: Request, res: Response) => {
+const getAllCategories = async (req: Request, res: Response) => {
   try {
-    const data = await TagModel.find();
+    const data = await CategoryModel.find();
     res.status(200).send(data);
   } catch (error) {
     console.log(error);
@@ -62,17 +66,16 @@ const getAllTags = async (req: Request, res: Response) => {
   }
 };
 
-const getTagById = async (req: Request, res: Response) => {
+const getCategoryById = async (req: Request, res: Response) => {
   try {
-    const data = await TagModel.findById(req.params.id);
+    const data = await CategoryModel.findById(req.params.id);
     res.status(200).send(data);
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal server error");
   }
 };
-
-const deleteTag = async (req: Request, res: Response) => {
+const deleteCategory = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { API_KEY } = req.body;
@@ -82,11 +85,11 @@ const deleteTag = async (req: Request, res: Response) => {
     }
 
     await Promise.all([
-      AlbumModel.updateMany({ tags: id }, { $pull: { tags: id } }),
-      SongModel.updateMany({ tags: id }, { $pull: { tags: id } }),
+      AlbumModel.updateMany({ categories: id }, { $pull: { categories: id } }),
+      SongModel.updateMany({ categories: id }, { $pull: { categories: id } }),
     ]);
 
-    await TagModel.deleteOne({
+    await CategoryModel.deleteOne({
       _id: req.params.id,
     });
 
@@ -97,4 +100,10 @@ const deleteTag = async (req: Request, res: Response) => {
   }
 };
 
-export { createTag, updateTag, getAllTags, getTagById, deleteTag };
+export {
+  createCategory,
+  deleteCategory,
+  getAllCategories,
+  getCategoryById,
+  updateCategory,
+};

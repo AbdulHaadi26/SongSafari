@@ -4,7 +4,7 @@ interface ICategoryProps {
   _id: object;
   name: string;
   description: string;
-  covers: string;
+  cover: string;
   createdAt?: Date;
   updatedAt?: Date;
   isActive?: boolean;
@@ -13,12 +13,9 @@ interface ICategoryProps {
 const CategorySchema = new Schema<ICategoryProps>({
   name: { type: String, required: true },
   description: { type: String },
-  covers: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "attachments",
-    },
-  ],
+  cover: {
+    type: String,
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   isActive: { type: Boolean, default: true },
