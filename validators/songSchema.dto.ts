@@ -6,6 +6,7 @@ const SongSchemaValidator = Joi.object({
   description: Joi.string(),
   cover: Joi.string(),
   tags: Joi.array(),
+  album: Joi.object().required(),
   categories: Joi.array(),
   createdAt: Joi.date(),
   updatedAt: Joi.date(),

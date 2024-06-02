@@ -1,12 +1,14 @@
 import { Schema } from "mongoose";
 import { ITagProps } from "./tags.schema";
 import { ICategoryProps } from "./category.schema";
+import { IAlbumProps } from "./album.schema";
 
 interface ISongProps {
   _id: object;
   name: string;
   description: string;
   cover: string;
+  album: IAlbumProps;
   tags: ITagProps[];
   categories: ICategoryProps[];
   author: string;
@@ -21,6 +23,10 @@ const SongSchema = new Schema<ISongProps>({
   description: { type: String },
   cover: {
     type: String,
+  },
+  album: {
+    type: Schema.Types.ObjectId,
+    ref: "albums",
   },
   categories: [
     {
